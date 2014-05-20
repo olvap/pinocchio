@@ -43,10 +43,39 @@ Features List:
 --------------
 
 * Implement authentication from scratch.
+  * Sign Up by email, password & password confirmation.
+  * Sign In by email & password.
+  * Add Sign Out, Sign In, Sign Up links.
+  * Add profile page. (user information summary)
+
+* Add picture to post.
+  * A user can add an image to his post.
+  * Add column image to each post of the listing.
+  * Add image to the post page.
+  * Validate image format png, jpg.
+  * Validate size < 2 mb.
+  * Validate presence.
+
 * Implement commentable posts.
+
 * Implement ActiveAdmin Panel.
+  * Add post resource.
+
+* Implement search.
+  * Search by title.
+
 * Implement pagination to the listing of posts.
+  * 15 posts per page.
+
 * Implement rate system for posts.
+  * Add rates count on the post page.
+  * Add rate button on the post page. 
+  * A post can be rated once per user.
+  * Sort posts by rating.
+  
+* Implement authorization system.
+  * A user can manage his posts.
+  * A user can manage his profile.
 
 How to submit your work:
 ------------------------
@@ -56,4 +85,3 @@ How to submit your work:
 * Add your code.
 * Test with capybara & rspec.
 * Make a pull request.
-
