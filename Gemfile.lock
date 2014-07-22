@@ -28,6 +28,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
+    bcrypt (3.1.7)
     builder (3.2.2)
     capybara (2.2.1)
       mime-types (>= 1.16)
@@ -42,9 +43,17 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
+    database_cleaner (1.2.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.0.2)
+    factory_girl (4.4.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.4.1)
+      factory_girl (~> 4.4.0)
+      railties (>= 3.0.0)
+    faker (1.4.2)
+      i18n (~> 0.5)
     haml (4.0.5)
       tilt
     haml-rails (0.5.3)
@@ -148,8 +157,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt (~> 3.1.7)
   capybara
   coffee-rails (~> 4.0.0)
+  database_cleaner (~> 1.2.0)
+  factory_girl_rails (~> 4.4.1)
+  faker (~> 1.4.2)
   haml-rails
   jbuilder (~> 2.0)
   jquery-rails
