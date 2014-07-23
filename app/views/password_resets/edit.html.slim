@@ -1,0 +1,10 @@
+.container
+  = form_for @user, :url => password_reset_path(params[:id]), :html => {:class => "form-signin"} do |f|
+    h2.form-signin-heading Recuperar contraseña
+    .login-wrap
+      .user-login-info
+        = f.password_field :password, :class => "form-control", :placeholder => "Contraseña"
+        p.help-block = @user.errors[:password].first
+        = f.password_field :password_confirmation, :class => "form-control", :placeholder => "Confirmar contraseña"
+        p.help-block = @user.errors[:password_confirmation].first
+      button.btn.btn-lg.btn-login.btn-block type="submit" Cambiar contraseña

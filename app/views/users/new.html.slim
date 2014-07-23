@@ -1,0 +1,5 @@
+.row
+  .col-sm-10.col-sm-offset-1
+    .col-sm-offset-2
+      h1 = t("actions.new", resource: User.model_name.human)
+    = render "form", user: @user
