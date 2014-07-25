@@ -7,6 +7,10 @@ p
   b Body:
   = @post.body
 
-= link_to 'Edit', edit_post_path(@post)
+p
+  b User:
+  = @post.user.full_name 
+
+= link_to 'Edit', edit_post_path(@post) if policy(@post).edit?
 |
 = link_to 'Back', posts_path

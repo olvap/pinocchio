@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   validates :email, uniqueness: true
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i}
 
+  has_many :posts
+
   before_create { generate_token(:auth_token) }
 
   def full_name

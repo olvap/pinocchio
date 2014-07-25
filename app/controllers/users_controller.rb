@@ -1,16 +1,18 @@
 class UsersController < ApplicationController
 
+  before_action :authorize_resource, except: [:show, :index]
+  prepend_before_action :set_user, except: [:index]
+
   def new
-    @user = User.new
   end
 
   def show
-    @user = current_user
   end
 
   def create
-    @user = User.new(user_params)
     if @user.save
+      @user.authenticate(params[:password])
+      cookies[:auth_token] = @user.auth_token
       redirect_to root_path
     else
       render :edit    
@@ -18,17 +20,14 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
   end
 
   def update
-    @user = User.find(params[:id])
     @user.update_attributes(user_params)
     render :edit
   end
 
   def destroy
-    @user = User.find(params[:id])
     if @user.destroy
       redirect_to root_path
     else
@@ -36,8 +35,25 @@ class UsersController < ApplicationController
     end
   end
 
+private
+
+  def set_user
+    @user ||= (
+       if params[:id]
+         User.find(params[:id])
+       else
+         User.new(user_params || {})
+       end
+    )
+  end
+
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
   end
+
+  def authorize_resource      
+    authorize(@user)
+  end    
+  
   
 end

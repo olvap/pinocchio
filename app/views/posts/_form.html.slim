@@ -1,16 +1,14 @@
-= form_for @post do |f|
-  - if @post.errors.any?
-    #error_explanation
-      h2= "# pluralize(@post.errors.count, 'error')  prohibited this post from being saved:"
-      ul
-        - @post.errors.full_messages.each do |msg|
-          li= msg
-
-  .field
-    = f.label :title
-    = f.text_field :title
-  .field
-    = f.label :body
-    = f.text_area :body
-  .actions
-    = f.submit 'Save'
+= form_for @post, url: posts_path(@post), :html => { :class => "form form-horizontal" } do |f|
+  .form-group class="#{@post.errors[:title].first.present? ? 'has-error' : ''}"
+    = f.label :title, :class => "col-sm-2 control-label" 
+    .col-sm-10
+      = f.text_field :title, :class => "form-control", placeholder: User.human_attribute_name(:title)
+      p.help-block = @post.errors[:title].first
+  .form-group class="#{@post.errors[:body].first.present? ? 'has-error' : ''}"
+    = f.label :body, :class => "col-sm-2 control-label" 
+    .col-sm-10 
+      = f.text_field :body, :class => "form-control", placeholder: User.human_attribute_name(:body)
+      p.help-block = @post.errors[:body].first    
+  .form-group
+    .col-lg-offset-2.col-lg-10
+      button.btn.btn-danger type="submit"  = t('actions.save')
