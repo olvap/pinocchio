@@ -8,6 +8,19 @@ describe PostsController do
     allow_any_instance_of(ApplicationController).to receive(:current_user) { current_user }
   end
 
+   describe "GET #index" do
+
+    let!(:post) { create(:post) }
+    let!(:other_post) { create(:post) }
+
+    it "renders the index template" do
+      get :index
+      expect(response).to render_template(:index)
+      expect(assigns(:posts)).to eq([post, other_post])
+    end
+    
+  end
+
   describe "POST #create" do
 
     context "with valid attributes" do
@@ -53,7 +66,7 @@ describe PostsController do
 
       let!(:post_attributes) { { title: '' } }
 
-      it "renders the new template" do
+      it "renders the edit template" do
         put :update, id: post.id, post: post_attributes
         expect(response).to render_template(:edit)
       end

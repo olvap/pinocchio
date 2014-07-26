@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
 
-  before_action :authorize_resource, except: [:show, :index]
+  before_action :authorize_resource, only: [:edit, :update, :destroy]
   prepend_before_action :set_user, except: [:index]
+  skip_before_filter :authenticate_user, except: [:edit, :update, :destroy]
 
   def new
   end
@@ -15,7 +16,7 @@ class UsersController < ApplicationController
       cookies[:auth_token] = @user.auth_token
       redirect_to root_path
     else
-      render :edit    
+      render :new    
     end    
   end
 
@@ -23,8 +24,11 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.update_attributes(user_params)
-    render :edit
+    if @user.update_attributes(user_params)
+      redirect_to @user, notice: 'User was successfully updated.'
+    else
+      render :edit
+    end
   end
 
   def destroy

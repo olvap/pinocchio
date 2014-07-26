@@ -7,15 +7,21 @@ class UserPolicy
   end
 
   def edit?
-    current_user == user
+    same_user?
   end
 
   def update?
-    current_user == user
+    same_user?
   end
 
   def destroy?
-    current_user == user
+    same_user?
   end
+
+private
+
+  def same_user?
+    current_user == user
+  end  
   
 end
