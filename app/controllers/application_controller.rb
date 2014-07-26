@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
 
-  helper_method :current_user, :policy
+  helper_method :current_user, :policy, :flash_class
 
   before_filter :authenticate_user
 
@@ -16,6 +16,14 @@ class ApplicationController < ActionController::Base
 
   def render_unauthorized
     render("#{Rails.root}/public/422", formats: [:html], status: 422, layout: false)
+  end
+
+  def flash_class(level) 
+    case level.to_sym
+    when :notice then 'alert-info'
+    when :error then 'alert-danger'
+    when :alert then 'alert-warning'    
+    end
   end
 
   private

@@ -10,4 +10,9 @@ html
   body
     = render "layouts/header"
     .container.content
+      - flash.each do |name, msg|
+        div class="alert alert-block #{flash_class(name)}"
+          button.close.close-sm data-dismiss="alert" type="button" 
+            span class="glyphicon glyphicon-remove"
+          = msg            
       = yield
