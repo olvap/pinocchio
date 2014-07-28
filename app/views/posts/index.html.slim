@@ -18,8 +18,8 @@
           td= post.user.full_name
           td
             = link_to 'Show', post 
-            = link_to 'Edit', edit_post_path(post) if policy(post).edit?
-            = link_to 'Destroy', post, :method => :delete, data: confirm=('Are you sure?' ) if policy(post).destroy?
+            = link_to 'Edit', edit_post_path(post), :class => "edit_post" if policy(post).edit?
+            = link_to 'Destroy', post, :method => :delete, data: confirm=('Are you sure?' ), :class => "destroy_post" if policy(post).destroy?
 
 - if current_user.present?
   = link_to 'New Post', new_post_path

@@ -13,6 +13,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   config.include(FactoryGirl::Syntax::Methods)
+  config.include(LoginMacros)
   config.infer_base_class_for_anonymous_controllers = true
   config.order = 'random'
   config.mock_with :rspec

@@ -5,11 +5,11 @@
   .col-sm-12
     dl.dl-horizontal
       dt First Name: 
-      dd =@user.first_name
+      dd#first_name =@user.first_name
       dt Last Name: 
-      dd =@user.last_name
+      dd#last_name =@user.last_name
       dt Email: 
-      dd =@user.email
+      dd#email =@user.email
 .row
   .col-sm-offset-1.col-sm-10
     = link_to 'Edit', edit_user_path(@user) if policy(@user).edit?

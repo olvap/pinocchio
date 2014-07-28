@@ -2,14 +2,14 @@ p#notice= notice
 
 p
   b Title:
-  = @post.title
+  #title = @post.title
 p
   b Body:
-  = @post.body
+  #body = @post.body
 
 p
   b User:
-  = @post.user.full_name 
+  #owner = @post.user.full_name 
 
 = link_to 'Edit', edit_post_path(@post) if policy(@post).edit?
 |
