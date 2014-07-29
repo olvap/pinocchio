@@ -1,0 +1,14 @@
+= form_for @post, :html => { :class => "form form-horizontal" } do |f|
+  .form-group class="#{@post.errors[:title].first.present? ? 'has-error' : ''}"
+    = f.label :title, :class => "col-sm-2 control-label" 
+    .col-sm-10
+      = f.text_field :title, :class => "form-control", placeholder: User.human_attribute_name(:title)
+      p.help-block = @post.errors[:title].first
+  .form-group class="#{@post.errors[:body].first.present? ? 'has-error' : ''}"
+    = f.label :body, :class => "col-sm-2 control-label" 
+    .col-sm-10 
+      = f.text_field :body, :class => "form-control", placeholder: User.human_attribute_name(:body)
+      p.help-block = @post.errors[:body].first    
+  .form-group
+    .col-lg-offset-2.col-lg-10
+      button.btn.btn-danger type="submit"  = t('actions.save')

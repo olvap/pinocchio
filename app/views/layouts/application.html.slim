@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title Pinocchio
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" 
+    script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"
+    = csrf_meta_tags
+  body
+    = render "layouts/header"
+    .container.content
+      - flash.each do |name, msg|
+        div class="alert alert-block #{flash_class(name)}"
+          button.close.close-sm data-dismiss="alert" type="button" 
+            span class="glyphicon glyphicon-remove"
+          = msg            
+      = yield

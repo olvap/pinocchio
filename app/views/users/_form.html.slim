@@ -1,0 +1,30 @@
+= form_for user, :html => { :class => "form form-horizontal" } do |f|
+  fieldset
+    .form-group class="#{user.errors[:first_name].first.present? ? 'has-error' : ''}"
+      = f.label :first_name, :class => "col-sm-2 control-label" 
+      .col-sm-10
+        = f.text_field :first_name, :class => "form-control", placeholder: User.human_attribute_name(:first_name)
+        p.help-block = user.errors[:first_name].first
+    .form-group class="#{user.errors[:last_name].first.present? ? 'has-error' : ''}"
+      = f.label :last_name, :class => "col-sm-2 control-label" 
+      .col-sm-10 
+        = f.text_field :last_name, :class => "form-control", placeholder: User.human_attribute_name(:last_name)
+        p.help-block = user.errors[:last_name].first
+    .form-group class="#{user.errors[:email].first.present? ? 'has-error' : ''}"
+      = f.label :email, :class => "col-sm-2 control-label" 
+      .col-sm-10
+        = f.text_field :email, :class => "form-control", placeholder: User.human_attribute_name(:email)
+        p.help-block = user.errors[:email].first
+    .form-group class="#{user.errors[:password].first.present? ? 'has-error' : ''}"
+      = f.label :password, :class => "control-label col-lg-2 col-sm-2"
+      .col-lg-10.m-bot15
+        = f.password_field :password, :class => "form-control", placeholder: User.human_attribute_name(:password)
+        p.help-block = user.errors[:password].first
+    .form-group class="#{user.errors[:password_confirmation].first.present? ? 'has-error' : ''}"
+      = f.label :password_confirmation, :class => "control-label col-lg-2 col-sm-2"
+      .col-lg-10.m-bot15
+        = f.password_field :password_confirmation, :class => "form-control", placeholder: User.human_attribute_name(:password_confirmation)
+        p.help-block = user.errors[:password_confirmation].first
+    .form-group
+      .col-lg-offset-2.col-lg-10
+        button.btn.btn-danger type="submit"  = t('actions.save')

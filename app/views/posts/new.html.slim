@@ -1,0 +1,7 @@
+.row
+  .col-sm-10.col-sm-offset-2
+    h1 = t("actions.new", resource: Post.model_name.human)
+  = render "form"
+.row 
+  .col-sm-10.col-sm-offset-2 
+    = link_to 'Back', posts_path

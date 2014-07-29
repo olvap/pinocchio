@@ -1,0 +1,38 @@
+.container
+  = form_tag sessions_path, :class => "form form-horizontal" do
+    h2 = t('sessions.new')    
+    .form-group
+      = label_tag :email, nil, :class => "col-sm-2 control-label" 
+      .col-sm-10
+        = text_field_tag :email, params[:email], id: "email", :class => "form-control", placeholder:  User.human_attribute_name(:email)
+    .form-group 
+      = label_tag :password, nil, :class => "col-sm-2 control-label" 
+      .col-sm-10 
+        = password_field_tag :password, nil, id: "password", :class => "form-control", placeholder:  User.human_attribute_name(:password)
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        .checkbox
+          label
+            = check_box_tag :remember_me, 1, params[:remember_me]
+            = t('sessions.remember_me')
+      span.col-sm-offset-2.col-sm-10
+        a data-toggle="modal" href="#myModal"  = t('sessions.forgot_password')      
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        button.btn.btn-default type="submit" = t('sessions.new')
+
+    /! Modal
+  #myModal.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" 
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close aria-hidden="true" data-dismiss="modal" type="button"  &times;
+          h4.modal-title = t('sessions.forgot_password')
+        = form_tag password_resets_path, :method => :post do
+          .modal-body            
+            p = t('sessions.enter_email')
+            = text_field_tag :user_email, params[:user_email], :class => "form-control placeholder-no-fix", :placeholder => "Email", :autocomplete => false, id: "email-reset"
+          .modal-footer
+            button.btn.btn-default data-dismiss="modal" type="button"  = t('actions.cancel')
+            button.btn.btn-success type="submit" = t('sessions.reset')
+    /! modal
