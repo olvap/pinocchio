@@ -9,4 +9,9 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   resources :password_resets
 
+  namespace :api do
+		namespace :v1 do
+			resources :posts, format: :json
+		end
+  end
 end
