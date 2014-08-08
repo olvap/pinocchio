@@ -7,7 +7,10 @@ class User < ActiveRecord::Base
 
   has_many :posts
 
-  before_create { generate_token(:auth_token) }
+  before_create do
+    generate_token(:auth_token)
+    generate_token(:api_auth_token)
+  end
 
   def full_name
     "#{first_name} #{last_name}"

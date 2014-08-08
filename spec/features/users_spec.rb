@@ -24,18 +24,20 @@ describe "Users" do
       expect(find(:css, "#first_name").text).to eq(user.first_name)
       expect(find(:css, "#last_name").text).to eq(user.last_name)
       expect(find(:css, "#email").text).to eq(user.email)
+      expect(find(:css, "#api_auth_token").text).to eq(user.api_auth_token)
     end
   end
 
   context "when user logged in" do
-    
+
     before(:each) do
       sign_in_user(user)
     end
 
-    it "edits a user" do 
+    it "edits a user" do
+      visit edit_user_path(user)
+      expect(find(:css, "input#user_api_auth_token").value).to eq(user.api_auth_token)
       expect {
-        visit edit_user_path(user)
         fill_in :user_first_name, with: 'Maria'
         click_button "Save"
         user.reload
