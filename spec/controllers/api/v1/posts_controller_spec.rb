@@ -65,7 +65,7 @@ describe Api::V1::PostsController do
 		context "user is not the creator" do
 			before { set_http_auth user.api_auth_token }
 
-			it "fails with forbidden code" do
+			it "fails with Forbidden status" do
 				delete :destroy, id: a_post.id, format: :json
 				expect(response).to have_http_status(403)
 			end
@@ -88,6 +88,34 @@ describe Api::V1::PostsController do
 			it "fails with Not-Found" do
 				delete :destroy, id: non_existing_post_id
 				expect(response).to have_http_status(404)
+			end
+		end
+
+		describe "PUT #update" do
+
+			context "not authenticated" do
+				it "fails with Forbidden status" do
+					put :update, id: a_post.id, format: :json
+					expect(response).to have_http_status(401)
+				end
+			end
+
+			context "non-existing Post" do
+				before { set_http_auth a_post.user.api_auth_token }
+
+				it "fails with Not-Found" do
+					put :update, id: non_existing_post_id, post: a_post.attributes, format: :json
+					expect(response).to have_http_status(404)
+				end
+			end
+
+			context "valid request" do
+				before { set_http_auth a_post.user.api_auth_token }
+
+				it "updates the post" do
+					put :update, id: a_post.id, post: a_post.attributes, format: :json
+					expect(response).to have_http_status(204)
+				end
 			end
 		end
 	end
