@@ -20,6 +20,16 @@ class Api::V1::PostsController < Api::V1::ApiController
     end
   end
 
+  def destroy
+    post = Post.find(params[:id])
+    if current_user == post.user
+      post.destroy
+      head 204
+    else
+      head 403
+    end
+  end
+
   private
 
   def post_params
