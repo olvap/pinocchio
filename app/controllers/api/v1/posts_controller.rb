@@ -9,4 +9,20 @@ class Api::V1::PostsController < Api::V1::ApiController
 		post = Post.find params[:id]
 		render json: post
 	end
+
+  def create
+    post = Post.new(post_params || {})
+    post.user = current_user
+    if post.save
+      render json: post, status: 201
+    else
+      render json: post.errors.to_s, status: 500
+    end
+  end
+
+  private
+
+  def post_params
+    params.require(:post).permit(:title, :body) if params[:post].present?
+  end
 end

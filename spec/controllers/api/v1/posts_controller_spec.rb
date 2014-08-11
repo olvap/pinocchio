@@ -25,4 +25,25 @@ describe Api::V1::PostsController do
 			expect(json).to eq(active_record_to_json post)
 		end
 	end
+
+	describe "POST to create a Post" do
+		let!(:unsaved_post) { build(:post) }
+
+		context "without a valid authentication token" do
+			it "fails" do
+				post :create, post: unsaved_post.attributes, format: :json
+				expect(response).to have_http_status(401)
+			end
+		end
+
+		context "with a valid authentication token" do
+			let!(:user) { create(:user) }
+		  before { set_http_auth user.api_auth_token }
+
+			it "succeed" do
+				post :create, post: unsaved_post.attributes, format: :json
+				expect(response).to have_http_status(:success)
+			end
+		end
+	end
 end
