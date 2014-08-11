@@ -4,6 +4,7 @@ describe Api::V1::PostsController do
 
 	let!(:user) { create(:user) }
 	let!(:a_post) { create(:post) }
+	let!(:non_existing_post_id) { Post.order(:id).last.id + 1 }
 
 	describe "GET #index" do
 		let!(:other_post) { create(:post) }
@@ -24,6 +25,13 @@ describe Api::V1::PostsController do
 			expect(response).to have_http_status(:success)
 			expect(response.header['Content-Type']).to include Mime::JSON
 			expect(json).to eq(active_record_to_json a_post)
+		end
+
+		context "post does not exists" do
+			it "fails with Not-Found" do
+				get :show, id: non_existing_post_id, format: :json
+				expect(response).to have_http_status(404)
+			end
 		end
 	end
 
@@ -71,6 +79,15 @@ describe Api::V1::PostsController do
 					delete :destroy, id: a_post.id
 					expect(response).to have_http_status(204)
 				}.to change(Post, :count).by(-1)
+			end
+		end
+
+		context "post does not exists" do
+			before { set_http_auth a_post.user.api_auth_token }
+
+			it "fails with Not-Found" do
+				delete :destroy, id: non_existing_post_id
+				expect(response).to have_http_status(404)
 			end
 		end
 	end

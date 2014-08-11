@@ -1,5 +1,6 @@
 class Api::V1::PostsController < Api::V1::ApiController
   skip_before_filter :authenticate, only: [:show, :index]
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
 	def index
 		render json: { posts: Post.all }
@@ -31,6 +32,10 @@ class Api::V1::PostsController < Api::V1::ApiController
   end
 
   private
+
+  def record_not_found
+    render nothing: true, status: 404
+  end
 
   def post_params
     params.require(:post).permit(:title, :body) if params[:post].present?
