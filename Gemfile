@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.1'
+gem 'rails', '4.1.4'
 
 gem 'bcrypt', '~> 3.1.7'
 gem 'jquery-rails'
@@ -16,7 +16,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.0.2'
+  gem 'rspec-rails'
 end
 
 group :test do

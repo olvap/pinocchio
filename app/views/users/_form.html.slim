@@ -15,6 +15,12 @@
       .col-sm-10
         = f.text_field :email, :class => "form-control", placeholder: User.human_attribute_name(:email)
         p.help-block = user.errors[:email].first
+    - unless user.new_record?
+      .form-group class="#{user.errors[:api_auth_token].first.present? ? 'has-error' : ''}"
+        = f.label :api_auth_token, :class => "col-sm-2 control-label"
+        .col-sm-10
+          = f.text_field :api_auth_token, :class => "form-control", placeholder: User.human_attribute_name(:api_auth_token)
+          p.help-block = user.errors[:api_auth_token].first
     .form-group class="#{user.errors[:password].first.present? ? 'has-error' : ''}"
       = f.label :password, :class => "control-label col-lg-2 col-sm-2"
       .col-lg-10.m-bot15
