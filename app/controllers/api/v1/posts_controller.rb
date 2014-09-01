@@ -6,7 +6,8 @@ class Api::V1::PostsController < Api::V1::ApiController
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def index
-    posts = Post.page(params[:page]).per(15)
+    posts = Post.search_for(params[:query])
+    posts = posts.page(params[:page]).per(15)
     render json: { posts: posts }
   end
 
