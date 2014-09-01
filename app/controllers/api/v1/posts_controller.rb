@@ -7,6 +7,10 @@ class Api::V1::PostsController < Api::V1::ApiController
 
   def index
     posts = Post.search_for(params[:query])
+    if params[:order_by]
+      order_type = params[:order_type] || "desc"
+      posts = posts.order("#{Post.table_name}.#{params[:order_by]} #{order_type}")
+    end
     posts = posts.page(params[:page]).per(15)
     render json: { posts: posts }
   end
