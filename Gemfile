@@ -12,6 +12,7 @@ gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
 
 gem 'kaminari'
+gem 'scoped_search'
 
 group :development do
   gem 'spring'
