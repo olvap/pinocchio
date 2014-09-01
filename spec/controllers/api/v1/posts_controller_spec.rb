@@ -55,6 +55,16 @@ describe Api::V1::PostsController do
       expect(json['posts'][0]).to eq(active_record_to_json post_to_search_2)
     end
 
+    it "filter posts using user attributes" do
+      user_to_search = create(:user, email: "test_email_search@test.com")
+      post_to_search = create(:post, title: "To Search", user: user_to_search)
+      get :index, page: 1, query: user_to_search.email, order_by: "title", order_type: "asc", format: :json
+      check_success_json_response
+      expect(json).to have_key('posts')
+      expect(json['posts'].size).to eq(1)
+      expect(json['posts'][0]).to eq(active_record_to_json post_to_search)
+    end
+
   end
 
   describe "GET #show" do
