@@ -16,6 +16,50 @@ describe Api::V1::PostsController do
 			expect(json).to have_key('posts')
 			expect(json['posts'].size).to eq(2)
 		end
+
+		it "paginate items" do
+			get :index, page: 1, per_page: 1, format: :json
+			expect(response).to have_http_status(:success)
+			expect(response.header['Content-Type']).to include Mime::JSON
+			expect(json).to have_key('posts')
+			expect(json['posts'].size).to eq(1)
+		end
+
+		it "filter items with simple query" do
+      post_to_search = create(:post, title: "To Search")
+			get :index, page: 1, query: post_to_search.title, format: :json
+			expect(response).to have_http_status(:success)
+			expect(response.header['Content-Type']).to include Mime::JSON
+			expect(json).to have_key('posts')
+			expect(json['posts'].size).to eq(1)
+      expect(json['posts'][0]).to eq(active_record_to_json post_to_search)
+      expect(json['posts']).to include(active_record_to_json post_to_search)
+		end
+
+		it "filter items with simple query_2" do
+      post_to_search = create(:post, title: "To Search")
+      post_to_search_2 = create(:post, body: "To Search 2")
+			get :index, page: 1, query: "To Sea", format: :json
+			expect(response).to have_http_status(:success)
+			expect(response.header['Content-Type']).to include Mime::JSON
+			expect(json).to have_key('posts')
+			expect(json['posts'].size).to eq(2)
+      expect(json['posts']).to include(active_record_to_json post_to_search)
+      expect(json['posts']).to include(active_record_to_json post_to_search_2)
+		end
+
+		it "filter items with simple query and order by title" do
+      post_to_search = create(:post, title: "To Search")
+      post_to_search_2 = create(:post, title: "AAA", body: "To Search 2")
+			get :index, page: 1, query: "To Sea", order_by: "title", order_type: "asc", format: :json
+			expect(response).to have_http_status(:success)
+			expect(response.header['Content-Type']).to include Mime::JSON
+			expect(json).to have_key('posts')
+			expect(json['posts'].size).to eq(2)
+      expect(json['posts'][1]).to eq(active_record_to_json post_to_search)
+      expect(json['posts'][0]).to eq(active_record_to_json post_to_search_2)
+		end
+    
 	end
 
 	describe "GET #show" do
