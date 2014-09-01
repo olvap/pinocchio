@@ -11,16 +11,14 @@ describe Api::V1::PostsController do
 
 		it "renders the json index" do
 			get :index, format: :json
-			expect(response).to have_http_status(:success)
-			expect(response.header['Content-Type']).to include Mime::JSON
+      check_success_json_response
 			expect(json).to have_key('posts')
 			expect(json['posts'].size).to eq(2)
 		end
 
 		it "paginate items" do
 			get :index, page: 1, per_page: 1, format: :json
-			expect(response).to have_http_status(:success)
-			expect(response.header['Content-Type']).to include Mime::JSON
+      check_success_json_response
 			expect(json).to have_key('posts')
 			expect(json['posts'].size).to eq(1)
 		end
@@ -28,8 +26,7 @@ describe Api::V1::PostsController do
 		it "filter items with simple query" do
       post_to_search = create(:post, title: "To Search")
 			get :index, page: 1, query: post_to_search.title, format: :json
-			expect(response).to have_http_status(:success)
-			expect(response.header['Content-Type']).to include Mime::JSON
+      check_success_json_response
 			expect(json).to have_key('posts')
 			expect(json['posts'].size).to eq(1)
       expect(json['posts'][0]).to eq(active_record_to_json post_to_search)
@@ -40,8 +37,7 @@ describe Api::V1::PostsController do
       post_to_search = create(:post, title: "To Search")
       post_to_search_2 = create(:post, body: "To Search 2")
 			get :index, page: 1, query: "To Sea", format: :json
-			expect(response).to have_http_status(:success)
-			expect(response.header['Content-Type']).to include Mime::JSON
+      check_success_json_response
 			expect(json).to have_key('posts')
 			expect(json['posts'].size).to eq(2)
       expect(json['posts']).to include(active_record_to_json post_to_search)
@@ -52,8 +48,7 @@ describe Api::V1::PostsController do
       post_to_search = create(:post, title: "To Search")
       post_to_search_2 = create(:post, title: "AAA", body: "To Search 2")
 			get :index, page: 1, query: "To Sea", order_by: "title", order_type: "asc", format: :json
-			expect(response).to have_http_status(:success)
-			expect(response.header['Content-Type']).to include Mime::JSON
+      check_success_json_response
 			expect(json).to have_key('posts')
 			expect(json['posts'].size).to eq(2)
       expect(json['posts'][1]).to eq(active_record_to_json post_to_search)
@@ -66,8 +61,7 @@ describe Api::V1::PostsController do
 
 		it "renders the json post" do
 			get :show, id: a_post, format: :json
-			expect(response).to have_http_status(:success)
-			expect(response.header['Content-Type']).to include Mime::JSON
+      check_success_json_response
 			expect(json).to eq(active_record_to_json a_post)
 		end
 
