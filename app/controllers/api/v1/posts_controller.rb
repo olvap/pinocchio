@@ -6,12 +6,8 @@ class Api::V1::PostsController < Api::V1::ApiController
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def index
-    posts = Post.search_for(params[:query])
-    if params[:order_by]
-      order_type = params[:order_type] || "desc"
-      posts = posts.order("#{Post.table_name}.#{params[:order_by]} #{order_type}")
-    end
-    posts = posts.page(params[:page]).per(params[:per_page] || 15)
+    posts = Post.filtered(params[:query], params[:order_by], params[:order_type]).
+                 paginated(params[:page], params[:per_page])
     render json: { posts: posts }
   end
 
