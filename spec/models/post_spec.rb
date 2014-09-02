@@ -25,6 +25,24 @@ describe Post, :type => :model do
         expect(posts.count).to eq(3)
       end
 
+      it "paginate posts with order" do
+        Post.delete_all
+        10.times do |i|
+          create(:post, title: "A#{i}")
+        end
+        posts = Post.filtered(nil, "title", "desc").paginated(1, 2)
+
+        expect(posts.count).to eq(2)
+        expect(posts.first.title).to eq("A9")
+        expect(posts.second.title).to eq("A8")
+
+        posts = Post.filtered(nil, "title", "desc").paginated(2, 2)
+
+        expect(posts.count).to eq(2)
+        expect(posts.first.title).to eq("A7")
+        expect(posts.second.title).to eq("A6")
+      end
+
     end
 
     describe "Filtering" do
