@@ -30,13 +30,14 @@ describe Post, :type => :model do
         10.times do |i|
           create(:post, title: "A#{i}")
         end
-        posts = Post.filtered(nil, "title", "desc").paginated(1, 2)
+        options = {order_by: "title", order_type: "desc"}
+        posts = Post.filtered(options).paginated(1, 2)
 
         expect(posts.count).to eq(2)
         expect(posts.first.title).to eq("A9")
         expect(posts.second.title).to eq("A8")
 
-        posts = Post.filtered(nil, "title", "desc").paginated(2, 2)
+        posts = Post.filtered(options).paginated(2, 2)
 
         expect(posts.count).to eq(2)
         expect(posts.first.title).to eq("A7")
@@ -50,7 +51,7 @@ describe Post, :type => :model do
       it "filter items with simple query" do
         Post.delete_all
         post_to_search = create(:post, title: "To Search")
-        posts = Post.filtered(post_to_search.title)
+        posts = Post.filtered(query: post_to_search.title)
         expect(posts.count).to eq(1)
       end
 
@@ -59,7 +60,7 @@ describe Post, :type => :model do
         post_to_search = create(:post, title: "To Search", body: "Not")
         post_to_search_2 = create(:post, title: "Not", body: "Testing To Search by attributes")
         post_not_to_search = create(:post, body: "Not to be found")
-        posts = Post.filtered("Searc")
+        posts = Post.filtered(query: "Searc")
 
         expect(posts.count).to eq(2)
         expect(posts).to include(post_to_search)
@@ -70,7 +71,7 @@ describe Post, :type => :model do
         Post.delete_all
         post_to_search = create(:post, title: "To Search", body: "Not to match")
         post_to_search_2 = create(:post, title: "AAA", body: "To Search 2")
-        posts = Post.filtered("Searc", "title", "asc")
+        posts = Post.filtered(query: "Searc", order_by: "title", order_type: "asc")
 
         expect(posts.count).to eq(2)
         expect(posts.first).to eq(post_to_search_2)
@@ -81,7 +82,7 @@ describe Post, :type => :model do
         Post.delete_all
         post_to_search = create(:post, title: "To Search", body: "Not to be found")
         post_to_search_2 = create(:post, title: "AAA", body: "To Search 2")
-        posts = Post.filtered("Searc", "title", "desc")
+        posts = Post.filtered(query: "Searc", order_by: "title", order_type: "desc")
 
         expect(posts.count).to eq(2)
         expect(posts.first).to eq(post_to_search)
@@ -94,7 +95,7 @@ describe Post, :type => :model do
         post_to_search = create(:post, title: "To Search", user: user_to_search)
         user_not_to_search = create(:user, email: "test_email_not_search@test.com")
         post_not_to_search = create(:post, title: "To Search", user: user_not_to_search)
-        posts = Post.filtered(user_to_search.email)
+        posts = Post.filtered(query: user_to_search.email)
 
         expect(posts.count).to eq(1)
         expect(posts.first).to eq(post_to_search)

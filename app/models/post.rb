@@ -13,11 +13,11 @@ class Post < ActiveRecord::Base
     page(page).per(per_page || 15)
   end
 
-  scope :filtered, ->(query, order_by=nil, order_type=nil) do
-    posts = Post.search_for(query)
-    if order_by
-      order_type ||= "desc"
-      posts = posts.order("#{Post.table_name}.#{order_by} #{order_type}")
+  scope :filtered, ->(options) do
+    posts = Post.search_for(options[:query])
+    if options[:order_by]
+      options[:order_type] ||= "desc"
+      posts = posts.order("#{Post.table_name}.#{options[:order_by]} #{options[:order_type]}")
     end
 
     posts
