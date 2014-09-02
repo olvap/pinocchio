@@ -5,13 +5,17 @@ class Api::V1::PostsController < Api::V1::ApiController
 
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
-	def index
-		render json: { posts: Post.all }
-	end
+  def index
+    posts = Post.filtered({query: params[:query],
+                           order_by: params[:order_by],
+                           order_type: params[:order_type]}).
+                 paginated(params[:page], params[:per_page])
+    render json: { posts: posts }
+  end
 
-	def show
-		render json: @post
-	end
+  def show
+    render json: @post
+  end
 
   def create
     post = Post.new(post_params || {})
