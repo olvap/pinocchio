@@ -39,6 +39,12 @@ rake db:create db:migrate
 rails s
 ```
 
+Description
+-----------
+
+Implement a blog web application. It should allow the user to upload his/her information and a CRUD for post resource.
+
+
 Features List:
 --------------
 
@@ -47,6 +53,7 @@ Features List:
   * Sign In by email & password.
   * Add Sign Out, Sign In, Sign Up links.
   * Add profile page. (user information summary)
+  * Implement OAuth
 
 * Add picture to post.
   * A user can add an image to his post.
@@ -58,7 +65,7 @@ Features List:
 
 * Implement commentable posts.
 
-* Implement ActiveAdmin Panel.
+* Implement ActiveAdmin Panel. (or alternative)
   * Add post resource.
 
 * Implement search.
@@ -69,13 +76,27 @@ Features List:
 
 * Implement rate system for posts.
   * Add rates count on the post page.
-  * Add rate button on the post page. 
+  * Add rate button on the post page.
   * A post can be rated once per user.
   * Sort posts by rating.
-  
+
 * Implement authorization system.
   * A user can manage his posts.
   * A user can manage his profile.
+
+* Create a Readme file
+  * How to
+    * Deploy
+    * Run tests
+  * Explain the most important gems and tools used
+
+Considerations
+--------------
+
+* Best practices
+* Code quality
+* Test coverage
+* You dont need to do every thing, we are going to evaluate what you do.
 
 How to submit your work:
 ------------------------
